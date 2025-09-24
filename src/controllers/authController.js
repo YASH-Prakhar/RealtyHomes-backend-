@@ -70,3 +70,24 @@ exports.login = async (req, res) => {
     user: { id: user.id, name: user.name, email: user.email, role: user.role },
   });
 };
+
+exports.verify = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    const token = authHeader.split(" ")[1];
+    const decoded = verifyToken(token);
+
+    const user = await User.findByPk(decoded.id, {
+      attributes: { exclude: ["password"] }
+    });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    res.json({ user });
+  } catch (err) {
+    res.status(401).json({ message: "Invalid or expired token" });
+  }
+};
