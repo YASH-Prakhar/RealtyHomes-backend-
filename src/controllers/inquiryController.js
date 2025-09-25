@@ -40,3 +40,22 @@ exports.createInquiry = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+exports.getUserInquiries = async (req, res) => {
+  console.log("[GET USER INQUIRIES] Endpoint hit");
+  try {
+    const userId = req.query.user_id || (req.user && req.user.id);
+    if (!userId) {
+      return res.status(400).json({ message: "Missing user_id" });
+    }
+    const inquiries = await Inquiry.findAll({
+      where: { receiver_id: userId },
+      order: [["created_at", "DESC"]],
+    });
+    console.log(`[GET USER INQUIRIES] Found ${inquiries.length} inquiries for user ${userId}`);
+    res.json({ inquiries });
+  } catch (err) {
+    console.error("[GET USER INQUIRIES] Error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};

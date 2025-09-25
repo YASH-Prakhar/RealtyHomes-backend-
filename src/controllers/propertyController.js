@@ -125,3 +125,22 @@ exports.getProperties = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+exports.getUserProperties = async (req, res) => {
+  console.log("[GET USER PROPERTIES] Endpoint hit");
+  try {
+    const userId = req.query.user_id || (req.user && req.user.id);
+    if (!userId) {
+      return res.status(400).json({ message: "Missing user_id" });
+    }
+    const properties = await Property.findAll({
+      where: { owner_id: userId },
+      order: [["created_at", "DESC"]],
+    });
+    console.log(`[GET USER PROPERTIES] Found ${properties.length} properties for user ${userId}`);
+    res.json({ properties });
+  } catch (err) {
+    console.error("[GET USER PROPERTIES] Error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
