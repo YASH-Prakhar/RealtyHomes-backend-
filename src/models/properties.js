@@ -40,7 +40,7 @@ const Property = sequelize.define(
     bathrooms: DataTypes.INTEGER,
     area_sqft: DataTypes.INTEGER,
     images: {
-      type: DataTypes.JSON, // Store array of image URLs as JSON
+      type: DataTypes.JSON, // array of image URLs as JSON
       allowNull: true,
     },
     status: {
@@ -52,7 +52,7 @@ const Property = sequelize.define(
       defaultValue: false,
     },
     features: {
-      type: DataTypes.JSON, // Store array of features as JSON
+      type: DataTypes.JSON, // array of features as JSON
       allowNull: true,
     },
   },
@@ -65,7 +65,5 @@ const Property = sequelize.define(
   }
 );
 
-// After defining Property
-// Property.belongsTo(User, { foreignKey: "owner_id", as: "owner" });
 
 module.exports = Property;

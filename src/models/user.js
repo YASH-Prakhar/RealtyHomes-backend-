@@ -16,6 +16,5 @@ const User = sequelize.define("User", {
 });
 
 
-// User.hasMany(Property, { foreignKey: "owner_id" });
 
 module.exports = User;

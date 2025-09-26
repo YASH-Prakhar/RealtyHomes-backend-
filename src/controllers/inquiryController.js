@@ -10,7 +10,7 @@ exports.createInquiry = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // Optionally, get sender_id from auth middleware if logged in
+    // get sender_id from auth middleware 
     let sender_id = null;
     if (req.user && req.user.id) {
       sender_id = req.user.id;

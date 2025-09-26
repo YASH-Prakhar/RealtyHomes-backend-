@@ -20,7 +20,7 @@ const Inquiry = sequelize.define(
     },
     sender_id: {
       type: DataTypes.UUID,
-      allowNull: true, // can be null if not logged in
+      allowNull: true, 
       references: {
         model: "users",
         key: "id",
